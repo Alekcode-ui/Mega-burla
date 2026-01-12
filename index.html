@@ -47,35 +47,36 @@ td{
 </table>
 
 <div class="copyright">
-© 2024 Senhas do Minuto
+© 2026 Senhas do Minuto
 </div>
 
 <script>
 function atualizarSenha(){
-    const agora = new Date(
-        new Intl.DateTimeFormat('en-US',{
-            timeZone:'America/Cuiaba',
-            hour:'2-digit',
-            minute:'2-digit',
-            hour12:false
-        }).format(new Date())
-    );
+    const partes = new Intl.DateTimeFormat('pt-BR', {
+        timeZone: 'America/Cuiaba',
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: false
+    }).formatToParts(new Date());
 
-    const hora = agora.getHours();
-    const minuto = agora.getMinutes();
-    const senha = 3 + (minuto * 2);
+    const hora = partes.find(p => p.type === 'hour').value;
+    const minuto = partes.find(p => p.type === 'minute').value;
+
+    const senha = 3 + (Number(minuto) * 2);
 
     document.getElementById('tabela').innerHTML = `
         <tr>
-            <td>${String(hora).padStart(2,'0')}:${String(minuto).padStart(2,'0')}</td>
+            <td>${hora}:${minuto}</td>
             <td>${senha}</td>
         </tr>
     `;
 }
 
 atualizarSenha();
-setInterval(atualizarSenha,1000);
+setInterval(atualizarSenha, 1000);
 </script>
+
 
 </body>
 </html>
+
